@@ -41,7 +41,7 @@ public class Main {
                     vaccine[i][j] = inf;
                     virusCnt++;
                 } else if (selection[i][j]) {
-                    // System.out.println("선택된 병원 " + i + " " + j);
+                    // System.out.println("선택된 병원 " + i + " " + j); ///////////////
                     vaccine[i][j] = 0; // 선택된 병원
                     que.add(new Spot(i, j, 0));
                     visit[i][j] = true;
@@ -67,7 +67,7 @@ public class Main {
         // System.out.println();
 
         int t = 0;
-        while(!que.isEmpty() && t < answer) {
+        while(!que.isEmpty() && t < answer && virusCnt > 0) {
             Spot now = que.poll();
             for (int d = 0; d < 4; d++) {
                 int y = now.y + dr[0][d];
@@ -105,9 +105,9 @@ public class Main {
             // System.out.println();
         }
 
-        // System.out.println(virusCnt + " " + answer + " " + t);
+        // System.out.println(virusCnt + " " + answer + " " + t);//////////////
 
-        if (virusCnt == 0) answer = t;
+        if (virusCnt == 0) answer = Math.min(answer,t);
     }
 
     public static void back(int p, int cnt) {

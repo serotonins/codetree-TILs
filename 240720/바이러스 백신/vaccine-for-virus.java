@@ -9,6 +9,7 @@ public class Main {
     static int[][] dr = {{0,1,0,-1}, {1,0,-1,0}};
     static List<int[]> hospitals = new ArrayList<>();
     static boolean[][] selection;
+    static boolean[][] hRegion;
     // static StringBuilder sb = new StringBuilder();
 
     public static class Spot implements Comparable<Spot> {
@@ -45,6 +46,9 @@ public class Main {
                     que.add(new Spot(i, j, 0));
                     visit[i][j] = true;
                 }
+                else if (hRegion[i][j]) {
+                    vaccine[i][j] = 0;
+                }
                 else vaccine[i][j] = -1; // 벽
             }
         }
@@ -55,10 +59,11 @@ public class Main {
             for (int d = 0; d < 4; d++) {
                 int y = now.y + dr[0][d];
                 int x = now.x + dr[1][d];
-                if (isOut(y,x) || visit[y][x] || vaccine[y][x] != inf) continue;
+                if (isOut(y,x) || visit[y][x]) continue;
                 t = now.time+1;
                 visit[y][x] = true;
                 que.add(new Spot(y,x,t));
+                if (vaccine[y][x] != inf) continue;
                 virusCnt--;
             }
         }
@@ -91,11 +96,15 @@ public class Main {
         
         region = new int[n][n];
         selection = new boolean[n][n];
+        hRegion = new boolean[n][n];
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < n; j++) {
                 region[i][j] = Integer.parseInt(st.nextToken());
-                if (region[i][j] == 2) hospitals.add(new int[] {i, j});
+                if (region[i][j] == 2) {
+                    hospitals.add(new int[] {i, j});
+                    hRegion[i][j] = true;
+                }
             }
         }
 

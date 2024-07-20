@@ -10,7 +10,7 @@ public class Main {
     static List<int[]> hospitals = new ArrayList<>();
     static boolean[][] selection;
     static boolean[][] hRegion;
-    // static StringBuilder sb = new StringBuilder();
+    static StringBuilder sb = new StringBuilder();
 
     public static class Spot implements Comparable<Spot> {
         int y, x, time;
@@ -40,18 +40,31 @@ public class Main {
                 if (k == 0) { // 바이러스
                     vaccine[i][j] = inf;
                     virusCnt++;
-                }
-                else if (selection[i][j]) {
+                } else if (selection[i][j]) {
+                    // System.out.println("선택된 병원 " + i + " " + j);
                     vaccine[i][j] = 0; // 선택된 병원
                     que.add(new Spot(i, j, 0));
                     visit[i][j] = true;
-                }
-                else if (hRegion[i][j]) {
-                    vaccine[i][j] = 0;
-                }
-                else vaccine[i][j] = -1; // 벽
+                } else vaccine[i][j] = -1; // 벽
             }
         }
+
+        // for (int i = 0; i < n; i++) {
+        //     sb = new StringBuilder();
+        //     for (int j = 0; j < n; j++) {
+        //         int k = vaccine[i][j];
+        //         if (k == -1 && !hRegion[i][j]) sb.append('벽');
+        //         else if (k == inf) sb.append('바');
+        //         else sb.append(k);
+        //         sb.append(' ');
+        //         // if (k == inf) sb.append('바');
+        //         // else if (selection[i][j]) sb.append('병');
+        //         // else if (hRegion[i][j]) sb.append('공');
+        //         // sb.append(((vaccine[i][j] == inf) ? "바" : (selection[i][j] ? "병" : (hRegion[i][j] ? "공" : "벽"))) + " ");
+        //     }
+        //     System.out.println(sb.toString());
+        // }
+        // System.out.println();
 
         int t = 0;
         while(!que.isEmpty() && t < answer) {
@@ -62,16 +75,37 @@ public class Main {
                 if (isOut(y,x) || visit[y][x]) continue;
                 if (hRegion[y][x] && !selection[y][x]) {
                     visit[y][x] = true;
-                    que.add(new Spot(y,x,t+1));
+                    vaccine[y][x] = now.time+1;
+                    que.add(new Spot(y,x,now.time+1));
                     continue;
                 } 
                 if (vaccine[y][x] != inf) continue;
                 t = now.time+1;
                 visit[y][x] = true;
-                que.add(new Spot(y,x,t));
+                vaccine[y][x] = now.time+1;
+                que.add(new Spot(y,x,now.time+1));
                 virusCnt--;
             }
+
+            // for (int i = 0; i < n; i++) {
+            //     sb = new StringBuilder();
+            //     for (int j = 0; j < n; j++) {
+            //         int k = vaccine[i][j];
+            //         if (k == -1 && !hRegion[i][j]) sb.append('벽');
+            //         else if (k == inf) sb.append('바');
+            //         else sb.append(k);
+            //         sb.append(' ');
+            //         // if (k == inf) sb.append('바');
+            //         // else if (selection[i][j]) sb.append('병');
+            //         // else if (hRegion[i][j]) sb.append('공');
+            //         // sb.append(((vaccine[i][j] == inf) ? "바" : (selection[i][j] ? "병" : (hRegion[i][j] ? "공" : "벽"))) + " ");
+            //     }
+            //     System.out.println(sb.toString());
+            // }
+            // System.out.println();
         }
+
+        // System.out.println(virusCnt + " " + answer + " " + t);
 
         if (virusCnt == 0) answer = t;
     }

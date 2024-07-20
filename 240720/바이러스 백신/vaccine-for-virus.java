@@ -63,6 +63,7 @@ public class Main {
                 t = now.time+1;
                 visit[y][x] = true;
                 que.add(new Spot(y,x,t));
+                if (hRegion[y][x]) t--;
                 if (vaccine[y][x] != inf) continue;
                 virusCnt--;
             }

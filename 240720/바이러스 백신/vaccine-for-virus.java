@@ -63,6 +63,7 @@ public class Main {
                 if (hRegion[y][x] && !selection[y][x]) {
                     visit[y][x] = true;
                     que.add(new Spot(y,x,t+1));
+                    continue;
                 } 
                 if (vaccine[y][x] != inf) continue;
                 t = now.time+1;

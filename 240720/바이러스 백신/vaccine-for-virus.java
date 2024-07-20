@@ -60,11 +60,14 @@ public class Main {
                 int y = now.y + dr[0][d];
                 int x = now.x + dr[1][d];
                 if (isOut(y,x) || visit[y][x]) continue;
+                if (hRegion[y][x] && !selection[y][x]) {
+                    visit[y][x] = true;
+                    que.add(new Spot(y,x,t+1));
+                } 
+                if (vaccine[y][x] != inf) continue;
                 t = now.time+1;
                 visit[y][x] = true;
                 que.add(new Spot(y,x,t));
-                if (hRegion[y][x]) t--;
-                if (vaccine[y][x] != inf) continue;
                 virusCnt--;
             }
         }

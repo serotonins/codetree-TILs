@@ -61,7 +61,7 @@ public class Main {
             System.out.println(belts[dst].cnt);
             return;
         }
-        
+
         int originSrcHead = belts[src].head;
         int originSrcTail = belts[src].tail;
         int originDstHead = belts[dst].head;
@@ -117,10 +117,10 @@ public class Main {
 
             if (gifts[originSrcHead].back != -1) gifts[gifts[originSrcHead].back].front = originDstHead;
             if (gifts[originDstHead].back != -1) gifts[gifts[originDstHead].back].front = originSrcHead;
-
-            if (belts[src].cnt == 1) belts[src].tail = belts[src].head;
-            if (belts[dst].cnt == 1) belts[dst].tail = belts[dst].head;
         }
+
+        if (belts[src].cnt <= 1) belts[src].tail = belts[src].head;
+        if (belts[dst].cnt <= 1) belts[dst].tail = belts[dst].head;
 
         System.out.println(belts[dst].cnt);
     }
@@ -172,20 +172,21 @@ public class Main {
         System.out.println(belts[num].head + belts[num].tail * 2 + belts[num].cnt * 3);
     }
 
-    public static void beltToString() {
-        int i = -1;
-        for (Belt b : belts) {
-            i++;
-            if (i==0) continue;
-            int idx = b.head;
-            if (idx == -1) continue;
-            System.out.print(i + " " + b.head + " ");
-            while (gifts[idx].back != -1) {
-                idx = gifts[idx].back;
-                System.out.print(idx + " ");
-            }
-            System.out.println();
-        }
+    public static void beltToString(int inst) {
+        // System.out.println(inst);
+        // int i = -1;
+        // for (Belt b : belts) {
+        //     i++;
+        //     if (i==0) continue;
+        //     int idx = b.head;
+        //     if (idx == -1) continue;
+        //     System.out.print(i + " " + b.head + " ");
+        //     while (gifts[idx].back != -1) {
+        //         idx = gifts[idx].back;
+        //         System.out.print(idx + " ");
+        //     }
+        //     System.out.println();
+        // }
     }
 
     public static void main(String[] args) throws IOException {
@@ -199,18 +200,23 @@ public class Main {
             switch (inst) {
                 case 100: {
                     factoryEstablish(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+                    beltToString(inst);
                     break;
                 }
                 case 200: {
                     moveAll(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+                    beltToString(inst);
                     break;
                 }
                 case 300: {
                     changeHead(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+                    // System.out.println(Arrays.toString(belts));
+                    beltToString(inst);
                     break;
                 }
                 case 400: {
                     divide(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+                    beltToString(inst);
                     break;
                 }
                 case 500: {

@@ -146,7 +146,7 @@ public class Main {
         if (moveTail == -1) moveTail++; ///////////////////////////////////////////////////
         int newSrcHead = gifts[moveTail].back; // 4
         
-
+        if (newSrcHead == -1) newSrcHead++;
         belts[src].head = newSrcHead; // 4
         belts[dst].head = moveHead; // 3
         gifts[newSrcHead].front = -1;

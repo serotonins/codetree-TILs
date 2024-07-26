@@ -33,6 +33,11 @@ public class Main {
     static Belt[] belts;
     static Gift[] gifts;
 
+    public static boolean okayBelt(int num) {
+        if (num > belts.length) return false;
+        return true;
+    }
+
     public static void factoryEstablish(int n, int m) {
         belts = new Belt[n+1];
         for (int i = 0; i <= n; i++) {
@@ -57,6 +62,7 @@ public class Main {
     }
 
     public static void moveAll(int src, int dst) {
+        if (!okayBelt(src) || !okayBelt(dst)) return;
         if (belts[src].cnt == 0) {
             System.out.println(belts[dst].cnt);
             return;
@@ -82,6 +88,7 @@ public class Main {
     }
 
     public static void changeHead(int src, int dst) {
+        if (!okayBelt(src) || !okayBelt(dst)) return;
         int originSrcHead = belts[src].head;
         int originDstHead = belts[dst].head;
 
@@ -126,6 +133,7 @@ public class Main {
     }
 
     public static void divide(int src, int dst) {
+        if (!okayBelt(src) || !okayBelt(dst)) return;
         if (belts[src].cnt <= 1) {
             System.out.println(belts[dst].cnt);
             return;
@@ -170,6 +178,7 @@ public class Main {
     }
 
     public static void getBeltInfo(int num) {
+        if (!okayBelt(num)) return;
         System.out.println(belts[num].head + belts[num].tail * 2 + belts[num].cnt * 3);
     }
 

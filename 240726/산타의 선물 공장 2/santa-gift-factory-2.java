@@ -56,32 +56,29 @@ public class Main {
         }
     }
 
-    public static void moveAll(int src, int dst) {
-        if (belts[src].cnt == 0) {
-            System.out.println(belts[dst].cnt);
-            return;
-        }
+    public static int moveAll(int src, int dst) {
+        if (belts[src].cnt == 0) return belts[dst].cnt;
 
         int originSrcHead = belts[src].head;
         int originSrcTail = belts[src].tail;
         int originDstHead = belts[dst].head;
 
         belts[dst].head = originSrcHead;
-        belts[dst].cnt += belts[src].cnt;
         gifts[originSrcTail].back = originDstHead;
 
         if (belts[dst].cnt != 0) {
             gifts[originDstHead].front = originSrcTail;
-        }
+        } else belts[dst].tail = originSrcTail;
         
+        belts[dst].cnt += belts[src].cnt;
         belts[src].head = -1;
         belts[src].tail = -1;
         belts[src].cnt = 0;
 
-        System.out.println(belts[dst].cnt);
+        return belts[dst].cnt;
     }
 
-    public static void changeHead(int src, int dst) {
+    public static int changeHead(int src, int dst) {
         int originSrcHead = belts[src].head;
         int originDstHead = belts[dst].head;
 
@@ -115,21 +112,18 @@ public class Main {
             gifts[originSrcHead].back = originDst2nd;
             gifts[originDstHead].back = originSrc2nd;
 
-            if (gifts[originSrcHead].back != -1) gifts[gifts[originSrcHead].back].front = originDstHead;
-            if (gifts[originDstHead].back != -1) gifts[gifts[originDstHead].back].front = originSrcHead;
+            if (originSrc2nd != -1) gifts[originSrc2nd].front = originDstHead;
+            if (originDst2nd != -1) gifts[originDst2nd].front = originSrcHead;
         }
 
         if (belts[src].cnt <= 1) belts[src].tail = belts[src].head;
         if (belts[dst].cnt <= 1) belts[dst].tail = belts[dst].head;
 
-        System.out.println(belts[dst].cnt);
+        return belts[dst].cnt;
     }
 
-    public static void divide(int src, int dst) {
-        if (belts[src].cnt <= 1) {
-            System.out.println(belts[dst].cnt);
-            return;
-        }
+    public static int divide(int src, int dst) {
+        if (belts[src].cnt <= 1) return belts[dst].cnt;
 
         int n = belts[src].cnt/2;
 
@@ -143,10 +137,8 @@ public class Main {
 
         int moveHead = originSrcHead; // 3
         int moveTail = idx; // 3
-        if (moveTail == -1) moveTail++; ///////////////////////////////////////////////////
         int newSrcHead = gifts[moveTail].back; // 4
         
-        if (newSrcHead == -1) newSrcHead++;
         belts[src].head = newSrcHead; // 4
         belts[dst].head = moveHead; // 3
         gifts[newSrcHead].front = -1;
@@ -162,15 +154,26 @@ public class Main {
         belts[dst].cnt += n;
         belts[src].cnt -= n;
 
-        System.out.println(belts[dst].cnt);
+        return belts[dst].cnt;
     }
 
-    public static void getGiftInfo(int num) {
-        System.out.println(gifts[num].front + gifts[num].back * 2);
+    public static int getGiftInfo(int num) {
+        return gifts[num].front + gifts[num].back * 2;
     }
 
-    public static void getBeltInfo(int num) {
-        System.out.println(belts[num].head + belts[num].tail * 2 + belts[num].cnt * 3);
+    public static int getBeltInfo(int num) {
+        return belts[num].head + belts[num].tail * 2 + belts[num].cnt * 3;
+    }
+
+    public static String lineToString(int num) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(num + "번 벨트 ");
+        int idx = belts[num].head;
+        while (idx != -1) {
+            sb.append(idx + " ");
+            idx = gifts[idx].back;
+        }
+        return sb.toString();
     }
 
     public static void beltToString(int inst) {
@@ -198,6 +201,7 @@ public class Main {
         for (int t = 0; t < q; t++) {
             st = new StringTokenizer(br.readLine());
             int inst = Integer.parseInt(st.nextToken());
+            int answer = Integer.MIN_VALUE;
             try {
                 switch (inst) {
                     case 100: {
@@ -206,28 +210,32 @@ public class Main {
                         break;
                     }
                     case 200: {
-                        moveAll(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+                        answer = moveAll(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
                         beltToString(inst);
                         break;
                     }
                     case 300: {
-                        changeHead(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
-                        // System.out.println(Arrays.toString(belts));
+                        answer = changeHead(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
                         beltToString(inst);
                         break;
                     }
                     case 400: {
-                        divide(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+                        answer = divide(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
                         beltToString(inst);
                         break;
                     }
                     case 500: {
-                        getGiftInfo(Integer.parseInt(st.nextToken()));
+                        answer = getGiftInfo(Integer.parseInt(st.nextToken()));
                         break;
                     }
-                    default: getBeltInfo(Integer.parseInt(st.nextToken()));
+                    default: answer = getBeltInfo(Integer.parseInt(st.nextToken()));
                 }
-            } catch (Exception e) {e.printStackTrace();}
+                if (answer != Integer.MIN_VALUE) System.out.println(answer);
+            } catch (Exception e) {
+                System.out.println(t + " " + e); 
+                break;
+            }
         }
     }
+
 }

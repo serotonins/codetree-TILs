@@ -142,8 +142,10 @@ public class Main {
         }
 
         int moveHead = originSrcHead; // 3
-        int moveTail = idx; // 3
-        int newSrcHead = gifts[moveTail].back; // 4
+        int moveTail = idx; // 3\
+        int newSrcHead;
+        if (moveTail != -1) newSrcHead = gifts[moveTail].back; // 4
+        else newSrcHead = gifts[0].back;
         
 
         belts[src].head = newSrcHead; // 4

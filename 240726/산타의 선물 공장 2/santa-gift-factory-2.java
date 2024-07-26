@@ -57,6 +57,11 @@ public class Main {
     }
 
     public static void moveAll(int src, int dst) {
+        if (belts[src].cnt == 0) {
+            System.out.println(belts[dst].cnt);
+            return;
+        }
+        
         int originSrcHead = belts[src].head;
         int originSrcTail = belts[src].tail;
         int originDstHead = belts[dst].head;

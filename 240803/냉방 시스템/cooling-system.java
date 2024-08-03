@@ -35,7 +35,7 @@ public class Main {
                                 aircon[now.y][now.x] += now.c;
                                 visit[now.y][now.x] = true;
                             }
-                            if (now.x == 0) continue;
+                            if (now.x == 0 || now.c == 1) continue;
                             if (now.y > 0 && !leftwall[now.y-1][now.x] && !upwall[now.y][now.x]) {
                                 que.add(new Spread(now.y-1, now.x-1, now.c-1));
                             }
@@ -57,7 +57,7 @@ public class Main {
                                 aircon[now.y][now.x] += now.c;
                                 visit[now.y][now.x] = true;
                             }
-                            if (now.y==0) continue;
+                            if (now.y==0 || now.c == 1) continue;
                             if (now.x > 0 && !leftwall[now.y][now.x] && !upwall[now.y][now.x-1]) {
                                 que.add(new Spread(now.y-1, now.x-1, now.c-1));
                             }
@@ -79,7 +79,7 @@ public class Main {
                                 aircon[now.y][now.x] += now.c;
                                 visit[now.y][now.x] = true;
                             }
-                            if (now.x==n-1) continue;
+                            if (now.x==n-1 || now.c == 1) continue;
                             if (now.y > 0 && !leftwall[now.y-1][now.x+1] && !upwall[now.y][now.x]) {
                                 que.add(new Spread(now.y-1, now.x+1, now.c-1));
                             }
@@ -101,7 +101,7 @@ public class Main {
                                 aircon[now.y][now.x] += now.c;
                                 visit[now.y][now.x] = true;
                             }
-                            if (now.y==n-1) continue;
+                            if (now.y==n-1 || now.c == 1) continue;
                             if (now.x > 0 && !leftwall[now.y][now.x] && !upwall[now.y+1][now.x-1]) {
                                 que.add(new Spread(now.y+1, now.x-1, now.c-1));
                             }

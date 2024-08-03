@@ -133,6 +133,8 @@ public class Main {
                     int y = i + dr[0][d];
                     int x = j + dr[1][d];
                     if (isOut(y,x) || temperature[i][j] - temperature[y][x] < 4) continue;
+                    if (i==y && leftwall[y][Math.max(j, x)]) continue;
+                    if (j==x && upwall[Math.max(i,y)][j]) continue;
                     mix[y][x] += (temperature[i][j] - temperature[y][x]) / 4;
                     mix[i][j] -= (temperature[i][j] - temperature[y][x]) / 4;
                 }

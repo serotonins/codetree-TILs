@@ -49,7 +49,7 @@ public class Main {
     }
 
     public static void findSanta() {
-        // System.out.print("findSanta ");
+        // System.out.println("findSanta now rudolph : " + rudol.y + " " + rudol.x);
         PriorityQueue<FS> que = new PriorityQueue<>();
         TreeSet<FS> set = new TreeSet<>();
         que.add(new FS(rudol.y, rudol.x, 0));
@@ -75,7 +75,7 @@ public class Main {
                     continue;
                 }
                 visit[y][x] = true;
-                que.add(new FS(y,x,now.l+1));
+                que.add(new FS(y,x,(int) (Math.pow(y-rudol.y, 2) + Math.pow(x-rudol.x, 2))));
             }
         }
 
@@ -85,12 +85,14 @@ public class Main {
         rudol.y += ty;
         rudol.x += tx;
 
+        // System.out.println("rudolph : " + rudol.y + ", " + rudol.x);
+
         if (pan[rudol.y][rudol.x] != 0) {
             crush(pan[rudol.y][rudol.x], c, ty, tx);
         }
 
         
-        // System.out.println("rudolph : " + rudol.y + ", " + rudol.x);
+        
     }
 
     public static void communicate(int sn, int y, int x, int dy, int dx) {
@@ -183,6 +185,12 @@ public class Main {
         }
     }
 
+    public static void panPrint() {
+        for (int i = 0; i < n; i++) {
+            System.out.println(Arrays.toString(pan[i]));
+        }
+    }
+
     public static void getScore() {
         for (int i = 1; i <= p; i++) {
             if (santa[i] != 1001) score[i]++;
@@ -214,7 +222,11 @@ public class Main {
         for (; turn <= m && deadSanta < p; turn++) {
             findSanta();
             moveSanta();
+            // panPrint();
             getScore();
+            // System.out.println("santa : " + Arrays.toString(santa));
+            // System.out.println("score : " + Arrays.toString(score));
+            
         }
 
         StringBuilder sb = new StringBuilder();

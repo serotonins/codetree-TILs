@@ -85,8 +85,6 @@ public class Main {
         rudol.y += ty;
         rudol.x += tx;
 
-        // System.out.println("rudolph : " + rudol.y + ", " + rudol.x);
-
         if (pan[rudol.y][rudol.x] != 0) {
             crush(pan[rudol.y][rudol.x], c, ty, tx);
         }
@@ -176,6 +174,7 @@ public class Main {
 
             dy = sr[0][temps];
             dx = sr[1][temps];
+            // System.out.println(sn + " " + dy + " " + dx);
             pan[i][j] = 0;
             pan[i+sr[0][temps]][j+sr[1][temps]] = sn;
 
@@ -186,9 +185,29 @@ public class Main {
     }
 
     public static void panPrint() {
-        for (int i = 0; i < n; i++) {
-            System.out.println(Arrays.toString(pan[i]));
-        }
+        // System.out.println("------------------------------");
+        // for (int i = 0; i < n; i++) {
+        //     if (rudol.y == i) {
+        //         System.out.print("[");
+        //         if (rudol.x != 0) {
+        //             System.out.print(pan[i][0]);
+        //         } else {
+        //             System.out.print("r");
+        //         }
+        //         for (int j = 1; j < n; j++) {
+        //             System.out.print(", ");
+        //             if (rudol.x != j) {
+        //                 System.out.print(pan[i][j]);
+        //             } else {
+        //                 System.out.print("r");
+        //             }
+        //         }
+        //         System.out.println("]");
+        //         continue;
+        //     }
+        //     System.out.println(Arrays.toString(pan[i]));
+        // }
+        // System.out.println("------------------------------");
     }
 
     public static void getScore() {
@@ -219,10 +238,12 @@ public class Main {
             pan[Integer.parseInt(st.nextToken())-1][Integer.parseInt(st.nextToken())-1] = num;
         }
 
+        panPrint();
+
         for (; turn <= m && deadSanta < p; turn++) {
             findSanta();
             moveSanta();
-            // panPrint();
+            panPrint();
             getScore();
             // System.out.println("santa : " + Arrays.toString(santa));
             // System.out.println("score : " + Arrays.toString(score));

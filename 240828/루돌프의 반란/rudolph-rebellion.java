@@ -7,7 +7,7 @@ public class Main {
     static int[][] dr = {{1,1,1,0,0,-1,-1,-1},{1,0,-1,1,-1,1,0,-1}};
     static int[][] pan;
 
-    static int turn = 1;
+    static int turn = 1, deadSanta;
     public static class WV implements Comparable<WV> {
         int y, x;
         public WV(int y, int x) {
@@ -88,12 +88,15 @@ public class Main {
         if (pan[rudol.y][rudol.x] != 0) {
             crush(pan[rudol.y][rudol.x], c, ty, tx);
         }
+
+        
         // System.out.println("rudolph : " + rudol.y + ", " + rudol.x);
     }
 
     public static void communicate(int sn, int y, int x, int dy, int dx) {
         if (isOut(y+dy, x+dx)) {
             santa[sn] = 1001;
+            deadSanta++;
             return;
         }
 
@@ -114,6 +117,7 @@ public class Main {
         int gx = x + cd * dx;
         if (isOut(gy, gx)) {
             santa[sn] = 1001;
+            deadSanta++;
             return;
         } else {
             if (pan[gy][gx] != 0) {
@@ -207,7 +211,7 @@ public class Main {
             pan[Integer.parseInt(st.nextToken())-1][Integer.parseInt(st.nextToken())-1] = num;
         }
 
-        for (; turn <= m; turn++) {
+        for (; turn <= m && deadSanta < p; turn++) {
             findSanta();
             moveSanta();
             getScore();
